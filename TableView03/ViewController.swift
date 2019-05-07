@@ -9,7 +9,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var myTableView: UITableView!
     
@@ -33,13 +33,21 @@ class ViewController: UIViewController, UITableViewDataSource {
         
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         myTableView.dataSource = self
+        myTableView.delegate = self
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "GoToDetail" {
+            let detailVC = segue.destination as! DetailViewController
+            
+            let selectedPath = myTableView.indexPathForSelectedRow
+            detailVC.animals = animals[(selectedPath?.row)!]
+        }
+    }
 
 }
 
